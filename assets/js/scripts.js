@@ -1,5 +1,3 @@
-//Declare a variable to store the searched city
-var city = '';
 // variable declaration
 var searchCity = $('#search-city');
 var searchButton = $('#search-button');
@@ -82,7 +80,11 @@ function getUVIndexRepo(lon, lat) {
 				console.log(response);
 				response.json().then(function (data) {
 					console.log(data);
-					$(currentUvindex).html(data.value);
+					uvIndex = data.value;
+					// uvIndex = 5;
+					$(currentUvindex).html(uvIndex);
+
+					changeUVIndexColor(uvIndex);
 				});
 			} else {
 				alert('Error: ' + response.statusText);
@@ -91,6 +93,38 @@ function getUVIndexRepo(lon, lat) {
 		.catch(function (error) {
 			alert('Unable to connect to API');
 		});
+}
+
+function changeUVIndexColor(uv) {
+	if (uv >= 0 && uv <= 2) {
+		$(currentUvindex).removeClass('yellow');
+		$(currentUvindex).removeClass('orange');
+		$(currentUvindex).removeClass('red');
+		$(currentUvindex).removeClass('text-dark');
+		$(currentUvindex).addClass('green');
+		$(currentUvindex).addClass('text-light');
+	} else if (uv >= 3 && uv <= 5) {
+		$(currentUvindex).removeClass('green');
+		$(currentUvindex).removeClass('orange');
+		$(currentUvindex).removeClass('red');
+		$(currentUvindex).removeClass('text-light');
+		$(currentUvindex).addClass('yellow');
+		$(currentUvindex).addClass('text-dark');
+	} else if (uv >= 6 && uv <= 7) {
+		$(currentUvindex).removeClass('green');
+		$(currentUvindex).removeClass('yellow');
+		$(currentUvindex).removeClass('red');
+		$(currentUvindex).removeClass('text-dark');
+		$(currentUvindex).addClass('orange');
+		$(currentUvindex).addClass('text-light');
+	} else {
+		$(currentUvindex).removeClass('green');
+		$(currentUvindex).removeClass('yellow');
+		$(currentUvindex).removeClass('orange');
+		$(currentUvindex).removeClass('text-dark');
+		$(currentUvindex).addClass('red');
+		$(currentUvindex).addClass('text-light');
+	}
 }
 
 //Click Handlers
