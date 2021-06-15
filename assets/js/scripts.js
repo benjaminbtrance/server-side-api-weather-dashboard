@@ -20,9 +20,9 @@ function getCityElement() {
 	}
 }
 
-// Here we create the AJAX call
+// get the fetch call from the openweathermap
 function getWeatherRepos(city) {
-	// Here we build the URL so we can get a data from server side.
+	// build the URL to get a data from server side.
 	var apiUrl =
 		'https://api.openweathermap.org/data/2.5/weather?q=' +
 		city +
@@ -35,26 +35,33 @@ function getWeatherRepos(city) {
 				console.log(response);
 				response.json().then(function (data) {
 					console.log(data);
+					// object from server side Api for icon property.
 					var weathericon = data.weather[0].icon;
 					var iconurl =
 						'https://openweathermap.org/img/wn/' + weathericon + '@2x.png';
-
+					// The date format method is taken from the
+					// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 					var date = new Date(data.dt * 1000).toLocaleDateString();
+					// display city name, date, and weather icon
 					$(currentCity).html(
 						data.name + '(' + date + ')' + '<img src=' + iconurl + '>'
 					);
+					// convert temp to fahrenheit and display the fahrenheit
 					var tempInFahrenheit = (data.main.temp - 273.15) * 1.8 + 32;
-					$(currentTemperature).html(tempInFahrenheit.toFixed(2) + '&#8457');
-					// Display the Humidity
-					$(currentHumidty).html(data.main.humidity + '%');
-					//Display Wind speed and convert to MPH
+					$(currentTemperature).html(tempInFahrenheit.toFixed(2) + ' &#8457');
+					// display the humidity
+					$(currentHumidty).html(data.main.humidity + ' %');
+					// convert wind to MPH and display wind speed
 					var windSpeed = data.wind.speed;
 					var windSpeedMph = (windSpeed * 2.237).toFixed(1);
-					$(currentWSpeed).html(windSpeedMph + 'MPH');
+					$(currentWSpeed).html(windSpeedMph + ' MPH');
+					// call getUVIndexRepo and pass in lon and lat
 					getUVIndexRepo(data.coord.lon, data.coord.lat);
-					console.log(weathericon);
-					console.log(iconurl);
-					console.log(date);
+					// call getForecastRepo and pass in id
+					getForecastRepo(data.id);
+					// console.log(weathericon);
+					// console.log(iconurl);
+					// console.log(date);
 				});
 			} else {
 				alert('Error: ' + response.statusText);
@@ -66,6 +73,7 @@ function getWeatherRepos(city) {
 }
 
 function getUVIndexRepo(lon, lat) {
+	// build the URL to get a data from server side.
 	var apiUrl =
 		'https://api.openweathermap.org/data/2.5/uvi?appid=' +
 		apiKey +
@@ -81,10 +89,51 @@ function getUVIndexRepo(lon, lat) {
 				response.json().then(function (data) {
 					console.log(data);
 					uvIndex = data.value;
+					// test to change bg color for ux-index
 					// uvIndex = 5;
 					$(currentUvindex).html(uvIndex);
 
 					changeUVIndexColor(uvIndex);
+				});
+			} else {
+				alert('Error: ' + response.statusText);
+			}
+		})
+		.catch(function (error) {
+			alert('Unable to connect to API');
+		});
+}
+
+function getForecastRepo(cityId) {
+	// build the URL to get a data from server side.
+	var apiUrl =
+		'https://api.openweathermap.org/data/2.5/forecast?id=' +
+		cityId +
+		'&appid=' +
+		apiKey;
+
+	fetch(apiUrl)
+		.then(function (response) {
+			if (response.ok) {
+				console.log(response);
+				response.json().then(function (data) {
+					console.log(data);
+					for (i = 0; i < 5; i++) {
+						var date = new Date(
+							data.list[(i + 1) * 8 - 1].dt * 1000
+						).toLocaleDateString();
+						var iconcode = data.list[(i + 1) * 8 - 1].weather[0].icon;
+						var iconurl =
+							'https://openweathermap.org/img/wn/' + iconcode + '.png';
+						var tempK = data.list[(i + 1) * 8 - 1].main.temp;
+						var tempF = ((tempK - 273.5) * 1.8 + 32).toFixed(2);
+						var humidity = data.list[(i + 1) * 8 - 1].main.humidity;
+
+						$('#fDate' + i).html(date);
+						$('#fImg' + i).html('<img src=' + iconurl + '>');
+						$('#fTemp' + i).html(tempF + ' &#8457');
+						$('#fHumidity' + i).html(humidity + ' %');
+					}
 				});
 			} else {
 				alert('Error: ' + response.statusText);
