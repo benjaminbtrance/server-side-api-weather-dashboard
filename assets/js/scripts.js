@@ -16,7 +16,7 @@ function getCityElement() {
 	if (city) {
 		getWeatherRepos(city);
 	} else {
-		alert('Please enter a city');
+		console.warn('Please enter a city');
 	}
 }
 
@@ -64,11 +64,11 @@ function getWeatherRepos(city) {
 					// console.log(date);
 				});
 			} else {
-				alert('Error: ' + response.statusText);
+				console.warn(response.statusText);
 			}
 		})
 		.catch(function (error) {
-			alert('Unable to connect to API');
+			console.warn('Unable to connect to API');
 		});
 }
 
@@ -88,7 +88,7 @@ function getUVIndexRepo(lon, lat) {
 				console.log(response);
 				response.json().then(function (data) {
 					console.log(data);
-					uvIndex = data.value;
+					var uvIndex = data.value;
 					// test to change bg color for ux-index
 					// uvIndex = 2;
 					console.log(uvIndex);
@@ -96,11 +96,11 @@ function getUVIndexRepo(lon, lat) {
 					$(currentUvindex).html(uvIndex);
 				});
 			} else {
-				alert('Error: ' + response.statusText);
+				console.warn(response.statusText);
 			}
 		})
 		.catch(function (error) {
-			alert('Unable to connect to API');
+			console.warn('Unable to connect to API');
 		});
 }
 
@@ -120,24 +120,35 @@ function getForecastRepo(cityId) {
 					console.log(data);
 					// generates dates for UI (maybe make into a function)
 					for (i = 0; i < 5; i++) {
+						var findInList = (i + 1) * 8 - 1;
 						var date = new Date(
-							data.list[(i + 1) * 8 - 1].dt * 1000
+							data.list[findInList].dt * 1000
 						).toLocaleDateString();
+						var iconcode = data.list[findInList].weather[0].icon;
+						var iconurl =
+							'https://openweathermap.org/img/wn/' + iconcode + '.png';
+						// get temp from main list
+						var temp = data.list[findInList].main.temp;
+						// convert to fahrenheit
+						var tempToFahrenheit = ((temp - 273.5) * 1.8 + 32).toFixed(2);
+						// get humidity from list
+						var humidity = data.list[findInList].main.humidity;
 
-						console.log(date);
-
-						$('#fDate' + i).html(date);
+						$('#forcastDate' + i).html(date);
+						$('#forcastImg' + i).html('<img src=' + iconurl + '>');
+						$('#forcastTemp' + i).html(tempToFahrenheit + ' &#8457');
+						$('#forcastHumidity' + i).html(humidity + ' %');
 					}
 
 					// loop over 40 item array and get average temp for each date then append to page
 				});
 			} else {
 				// console.warn or console.error :)
-				alert('Error: ' + response.statusText);
+				console.warn(response.statusText);
 			}
 		})
 		.catch(function (error) {
-			alert('Unable to connect to API');
+			console.warn('Unable to connect to API');
 		});
 }
 

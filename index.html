@@ -7,22 +7,33 @@
 		<title>Weather Dashboard</title>
 		<!--Bootstrap CSS CDN-->
 		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
 			rel="stylesheet"
-			integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+			integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 			crossorigin="anonymous"
 		/>
-		<!-- Font Awesome CSS Icons (For cool glyphicons) -->
+		<!-- Google Fonts Source Sans Pro -->
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
 		<link
+			href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap"
 			rel="stylesheet"
-			href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
 		/>
 		<link rel="stylesheet" href="./assets/css/style.css" />
 	</head>
+
 	<body>
 		<!--Jumbotron for Title-->
 		<div
-			class="jumbotron container-fluid mt-2 text-center p-2 bg-dark text-white"
+			class="
+				jumbotron
+				container-fluid
+				my-4
+				text-center
+				p-2
+				py-4
+				bg-dark
+				text-white
+			"
 		>
 			<h1 class="bold">Weather Dashboard</h1>
 		</div>
@@ -31,7 +42,7 @@
 			<div class="row">
 				<div class="col-sm-4 bg-light">
 					<!--Here we create an HTML form for handling the inputs-->
-					<h4 class="pt-1"><strong>Search for a City:</strong></h4>
+					<h4 class="pt-2"><strong>Search for a City:</strong></h4>
 					<!--Here we create the text box for capturing the search city Name-->
 					<div class="input-group mb-3">
 						<input
@@ -41,7 +52,7 @@
 							aria-label="City Search"
 							aria-describedby="search-button"
 						/>
-						<div class="input-group-append">
+						<div class="input-group-append mx-2">
 							<button class="btn bg-primary text-light" id="search-button">
 								Search <i class="fa fa-search"></i>
 							</button>
@@ -69,7 +80,7 @@
 						</div>
 					</div>
 					<!--Row for future data to be dumped here-->
-					<div class="col-sm-12" id="future-weather">
+					<div class="col-sm-12 mt-2" id="future-weather">
 						<h3>5-Day Forecast:</h3>
 						<div class="row text-light">
 							<div
@@ -85,10 +96,10 @@
 									rounded
 								"
 							>
-								<p id="fDate0"></p>
-								<p id="fImg0"></p>
-								<p>Temp: <span id="fTemp0"></span></p>
-								<p>Humidity: <span id="fHumidity0"></span></p>
+								<p id="forcastDate0"></p>
+								<p id="forcastImg0"></p>
+								<p>Temp: <span id="forcastTemp0"></span></p>
+								<p>Humidity: <span id="forcastHumidity0"></span></p>
 							</div>
 							<div
 								class="
@@ -103,10 +114,10 @@
 									rounded
 								"
 							>
-								<p id="fDate1"></p>
-								<p id="fImg1"></p>
-								<p>Temp: <span id="fTemp1"></span></p>
-								<p>Humidity: <span id="fHumidity1"></span></p>
+								<p id="forcastDate1"></p>
+								<p id="forcastImg1"></p>
+								<p>Temp: <span id="forcastTemp1"></span></p>
+								<p>Humidity: <span id="forcastHumidity1"></span></p>
 							</div>
 							<div
 								class="
@@ -121,10 +132,10 @@
 									rounded
 								"
 							>
-								<p id="fDate2"></p>
-								<p id="fImg2"></p>
-								<p>Temp: <span id="fTemp2"></span></p>
-								<p>Humidity: <span id="fHumidity2"></span></p>
+								<p id="forcastDate2"></p>
+								<p id="forcastImg2"></p>
+								<p>Temp: <span id="forcastTemp2"></span></p>
+								<p>Humidity: <span id="forcastHumidity2"></span></p>
 							</div>
 							<div
 								class="
@@ -139,10 +150,10 @@
 									rounded
 								"
 							>
-								<p id="fDate3"></p>
-								<p id="fImg3"></p>
-								<p>Temp: <span id="fTemp3"></span></p>
-								<p>Humidity: <span id="fHumidity3"></span></p>
+								<p id="forcastDate3"></p>
+								<p id="forcastImg3"></p>
+								<p>Temp: <span id="forcastTemp3"></span></p>
+								<p>Humidity: <span id="forcastHumidity3"></span></p>
 							</div>
 							<div
 								class="
@@ -157,10 +168,10 @@
 									rounded
 								"
 							>
-								<p id="fDate4"></p>
-								<p id="fImg4"></p>
-								<p>Temp: <span id="fTemp4"></span></p>
-								<p>Humidity: <span id="fHumidity4"></span></p>
+								<p id="forcastDate4"></p>
+								<p id="forcastImg4"></p>
+								<p>Temp: <span id="forcastTemp4"></span></p>
+								<p>Humidity: <span id="forcastHumidity4"></span></p>
 							</div>
 						</div>
 					</div>
@@ -173,7 +184,16 @@
 			integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 			crossorigin="anonymous"
 		></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+			crossorigin="anonymous"
+		></script>
 		<!--Code to Jvascript File-->
 		<script src="./assets/js/scripts.js"></script>
 	</body>

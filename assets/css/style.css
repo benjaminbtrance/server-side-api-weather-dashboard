@@ -4,7 +4,7 @@
 
 body {
 	font-size: 16px;
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
 }
 
 h3 {
@@ -12,11 +12,11 @@ h3 {
 }
 
 .forecast {
-	font-size: 0.9em;
+	font-size: 1em;
 }
 
 span {
-	font-size: 1em;
+	font-size: 1.5em;
 }
 
 li:hover {
