@@ -90,10 +90,10 @@ function getUVIndexRepo(lon, lat) {
 					console.log(data);
 					uvIndex = data.value;
 					// test to change bg color for ux-index
-					// uvIndex = 5;
-					$(currentUvindex).html(uvIndex);
-
+					// uvIndex = 2;
+					console.log(uvIndex);
 					changeUVIndexColor(uvIndex);
+					$(currentUvindex).html(uvIndex);
 				});
 			} else {
 				alert('Error: ' + response.statusText);
@@ -118,24 +118,21 @@ function getForecastRepo(cityId) {
 				console.log(response);
 				response.json().then(function (data) {
 					console.log(data);
+					// generates dates for UI (maybe make into a function)
 					for (i = 0; i < 5; i++) {
 						var date = new Date(
 							data.list[(i + 1) * 8 - 1].dt * 1000
 						).toLocaleDateString();
-						var iconcode = data.list[(i + 1) * 8 - 1].weather[0].icon;
-						var iconurl =
-							'https://openweathermap.org/img/wn/' + iconcode + '.png';
-						var tempK = data.list[(i + 1) * 8 - 1].main.temp;
-						var tempF = ((tempK - 273.5) * 1.8 + 32).toFixed(2);
-						var humidity = data.list[(i + 1) * 8 - 1].main.humidity;
+
+						console.log(date);
 
 						$('#fDate' + i).html(date);
-						$('#fImg' + i).html('<img src=' + iconurl + '>');
-						$('#fTemp' + i).html(tempF + ' &#8457');
-						$('#fHumidity' + i).html(humidity + ' %');
 					}
+
+					// loop over 40 item array and get average temp for each date then append to page
 				});
 			} else {
+				// console.warn or console.error :)
 				alert('Error: ' + response.statusText);
 			}
 		})
@@ -144,33 +141,30 @@ function getForecastRepo(cityId) {
 		});
 }
 
+function removeClassName(el) {
+	$(el).removeClass('yellow');
+	$(el).removeClass('orange');
+	$(el).removeClass('red');
+	$(el).removeClass('text-dark');
+	$(el).removeClass('green');
+	$(el).removeClass('text-light');
+}
+
 function changeUVIndexColor(uv) {
 	if (uv >= 0 && uv <= 2) {
-		$(currentUvindex).removeClass('yellow');
-		$(currentUvindex).removeClass('orange');
-		$(currentUvindex).removeClass('red');
-		$(currentUvindex).removeClass('text-dark');
+		removeClassName(currentUvindex);
 		$(currentUvindex).addClass('green');
 		$(currentUvindex).addClass('text-light');
-	} else if (uv >= 3 && uv <= 5) {
-		$(currentUvindex).removeClass('green');
-		$(currentUvindex).removeClass('orange');
-		$(currentUvindex).removeClass('red');
-		$(currentUvindex).removeClass('text-light');
+	} else if (uv >= 2 && uv <= 5) {
+		removeClassName(currentUvindex);
 		$(currentUvindex).addClass('yellow');
 		$(currentUvindex).addClass('text-dark');
-	} else if (uv >= 6 && uv <= 7) {
-		$(currentUvindex).removeClass('green');
-		$(currentUvindex).removeClass('yellow');
-		$(currentUvindex).removeClass('red');
-		$(currentUvindex).removeClass('text-dark');
+	} else if (uv >= 5 && uv <= 7) {
+		removeClassName(currentUvindex);
 		$(currentUvindex).addClass('orange');
 		$(currentUvindex).addClass('text-light');
 	} else {
-		$(currentUvindex).removeClass('green');
-		$(currentUvindex).removeClass('yellow');
-		$(currentUvindex).removeClass('orange');
-		$(currentUvindex).removeClass('text-dark');
+		removeClassName(currentUvindex);
 		$(currentUvindex).addClass('red');
 		$(currentUvindex).addClass('text-light');
 	}
